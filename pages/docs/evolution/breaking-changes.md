@@ -206,7 +206,6 @@ we defer to the existing
 
 ## `7` The scope of this policy
 
-
 ### `7.1` In scope
 
 `7.1.1` Language: syntax, static checks, execution
@@ -445,3 +444,21 @@ future issues as warnings, and let the users migrate.
     a GitHub pull request; providing a reasonable time to allow for
      comments on the change by the Kotlin Community.
 
+<script language="javascript">
+sections = document.getElementsByTagName("code");
+
+for (i = 0; i < sections.length; i++) {
+    sec = sections[i];
+    text = sec.innerText;
+
+    anchor = document.createElement("a");
+    anchor.innerText = text;
+    anchor.href = "#" + text;
+    anchor.name = text;
+    
+    sec.insertAdjacentElement('beforebegin', anchor);
+}
+while (sections[0]) {
+    sections[0].remove();
+}
+</script>
