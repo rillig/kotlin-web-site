@@ -447,11 +447,12 @@ future issues as warnings, and let the users migrate.
      comments on the change by the Kotlin Community.
 
 <script language="javascript">
-sections = document.getElementsByTagName("code");
+sections = Array.from(document.getElementsByTagName("code"));
 
 for (i = 0; i < sections.length; i++) {
     sec = sections[i];
     text = sec.innerText;
+    if (!text.match("^([0-9]+)(\.([0-9]+))?(\.([0-9]+))?(\.([0-9]+))?$")) continue;
 
     anchor = document.createElement("a");
     anchor.innerText = text;
@@ -459,8 +460,6 @@ for (i = 0; i < sections.length; i++) {
     anchor.name = text;
     
     sec.insertAdjacentElement('beforebegin', anchor);
-}
-while (sections[0]) {
-    sections[0].remove();
+    sec.remove();
 }
 </script>
