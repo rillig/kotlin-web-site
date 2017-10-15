@@ -442,7 +442,7 @@ future issues as warnings, and let the users migrate.
 sections = Array.from(document.getElementsByTagName("code"));
 report = document.getElementById("report");
 
-function reportError(textStr, lastSecText) {
+function reportError(text, lastSecText) {
     report.innerHTML += "<li><code><a href=\"#" + text + "\">" + text + "</a>" 
             + "</code> is out of order with " 
             + "<code><a href=\"#" + lastSecText + "\">" + lastSecText + "</a></code></li>";
@@ -459,6 +459,10 @@ function checkOrdering(groups) {
     }
     currentSecText = currentSec.join(".");
     
+    if (currentSec.length > lastSec.length + 1) {
+        reportError(currentSecText, lastSecText)
+    }
+    
     for (level = 0; level < Math.max(currentSec.length, lastSec.length); level++) {
         currentSec[level] = currentSec[level] ? currentSec[level] : 0; 
         lastSec[level] = lastSec[level] ? lastSec[level] : 0; 
@@ -469,12 +473,12 @@ function checkOrdering(groups) {
     for (level = 0; level < currentSec.length; level++) {
         if (lastSec[level] < currentSec[level]) break;
         if (lastSec[level] > currentSec[level]) {
-            reportError(text, lastSecText);
+            reportError(currentSecText, lastSecText);
             result = false;
         }       
     }
     if (lastSec.toString() == currentSec.toString()) {
-        reportError(groups[0], lastSecText);        
+        reportError(currentSecText, lastSecText);        
         result = false;
     }
     lastSec = currentSec;
