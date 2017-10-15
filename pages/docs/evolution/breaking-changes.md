@@ -8,6 +8,7 @@ toc: true
 
 # Backwards Incompatible Changes and Deprecation Guidelines
 
+<ul id="report" style="color: red"></ul>
 
 ## `1` Intro
 This document contains definitions and policies with regards to version compatibility and languages changes. The Kotlin language designers & [committee](language-committee.html) use it as guidelines to consult with when making designd ecisions. 
@@ -69,7 +70,7 @@ Obsolete things should be eventually dropped and bugs should be fixed.
     many users will benefit from may introduce subtle changes that do
     not harm most of the code out there.
 
-`3.3.2` *Example*: legacy features that are no longer
+`3.3.3` *Example*: legacy features that are no longer
     considered a good practice should be phased out (very) gradually.
 
 `3.4` To be pragmatically beneficial, such changes
@@ -159,30 +160,28 @@ we defer to the existing
 
 `5.4.3` Keep migration aids available.
 
-`5.4` In the version N.M+2 or N+1, report errors for
+`5.5` In the version N.M+2 or N+1, report errors for
     the deprecated feature.
 
-`5.4.1` In the release notes, declare the feature as
+`5.5.1` In the release notes, declare the feature as
     discontinued.
 
-`5.4.2` If possible, keep a compatibility mode that
+`5.5.2` If possible, keep a compatibility mode that
     does not support new features, but allows the deprecated one as in
     version N.M+1 or N+1.X.
 
-`5.4.3` Migration aids can be removed from the
+`5.5.3` Migration aids can be removed from the
     compiler at this point.
 
-`5.5` A version that supports automated migration
+`5.6` A version that supports automated migration
     must be maintained and kept available for download. Such tools can
     be retired after support period of a few years, and the retirement
     must be announced at least 1 year in advance.
 
-`5.6` Backward compatibility modes in the compiler
+`5.7` Backward compatibility modes in the compiler
     (through -language-version and -api-version) are supported for a few
     years and their retirement must be announced at least 1 year in
     advance.
-
-
 
 ## `6` Deprecation procedure for the Standard Library
 
@@ -339,23 +338,23 @@ classes/interfaces.
 `9.5.1` Making a contract on existing API more strict
     than it used to be in a previous version.
 
-### `9.5` Library Change, non-issues
+### `9.6` Library Change, non-issues
 
-`9.5.2` Relaxing a contract on existing APIs.
+`9.6.2` Relaxing a contract on existing APIs.
 
-`9.5.3` Clarification for unspecified behaviors.
+`9.6.3` Clarification for unspecified behaviors.
 
-`9.5.4` Changes in hashCode() are not breaking
+`9.6.4` Changes in hashCode() are not breaking
     changes.
 
-`9.5.5` Changes in toString() on other than Boolean,
+`9.6.5` Changes in toString() on other than Boolean,
     Numeric, and String types are not breaking changes.
 
-`9.5.6` Improper loading of two different versions of
+`9.6.6` Improper loading of two different versions of
     stdlib at runtime.
 
 
-### `9.6` Performance changes
+### `9.7` Performance changes
 
 We recognize that runtime performance and bytecode size are important
 metrics, and will make reasonable effort to keep them in a good shape,
@@ -448,16 +447,64 @@ future issues as warnings, and let the users migrate.
 
 <script language="javascript">
 sections = Array.from(document.getElementsByTagName("code"));
+report = document.getElementById("report");
+
+function reportError(textStr, lastSecText) {
+    report.innerHTML += "<li><code><a href=\"#" + text + "\">" + text + "</a>" 
+            + "</code> is out of order with " 
+            + "<code><a href=\"#" + lastSecText + "\">" + lastSecText + "</a></code></li>";
+}
+    
+lastSec = [];
+lastSecText = "";
+function checkOrdering(groups) {
+    currentSec = [];
+    for (j = 1; j < groups.length && groups[j]; j += 2) {        
+        level = (j / 2) | 0;              
+        currentValue = Number.parseInt(groups[j]);
+        currentSec[level] = currentValue;        
+    }
+    currentSecText = currentSec.join(".");
+    
+    for (level = 0; level < Math.max(currentSec.length, lastSec.length); level++) {
+        currentSec[level] = currentSec[level] ? currentSec[level] : 0; 
+        lastSec[level] = lastSec[level] ? lastSec[level] : 0; 
+    }
+        
+    result = true;
+        
+    for (level = 0; level < currentSec.length; level++) {
+        if (lastSec[level] < currentSec[level]) break;
+        if (lastSec[level] > currentSec[level]) {
+            reportError(text, lastSecText);
+            result = false;
+        }       
+    }
+    if (lastSec.toString() == currentSec.toString()) {
+        reportError(groups[0], lastSecText);        
+        result = false;
+    }
+    lastSec = currentSec;
+    lastSecText = currentSecText;
+    return result;
+}
 
 for (i = 0; i < sections.length; i++) {
     sec = sections[i];
     text = sec.innerText;
-    if (!text.match("^([0-9]+)(\.([0-9]+))?(\.([0-9]+))?(\.([0-9]+))?$")) continue;
-
+    
+    groups = text.match("^([0-9]+)(\.([0-9]+))?(\.([0-9]+))?(\.([0-9]+))?$");
+    if (!groups) continue;
+    
+    correct = checkOrdering(groups);
+    
     anchor = document.createElement("a");
     anchor.innerText = text;
     anchor.href = "#" + text;
     anchor.name = text;
+    if (!correct) {
+        anchor.style.color = "red";
+    }
     
     sec.insertAdjacentElement('beforebegin', anchor);
     sec.remove();
