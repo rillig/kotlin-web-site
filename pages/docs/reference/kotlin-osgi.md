@@ -17,30 +17,30 @@ Most regular Kotlin dependencies are not OSGi-ready, so you shouldn't use them a
 To include the Kotlin OSGi bundle to a Maven project:
 
 ```xml
-   <dependencies>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-osgi-bundle</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
-    </dependencies>
+<dependencies>
+    <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-osgi-bundle</artifactId>
+        <version>${kotlin.version}</version>
+    </dependency>
+</dependencies>
 ```
 
 To exclude the standard library from external libraries (notice that "star exclusion" works in Maven 3 only):
 
 ```xml
-        <dependency>
-            <groupId>some.group.id</groupId>
-            <artifactId>some.library</artifactId>
-            <version>some.library.version</version>
+<dependency>
+    <groupId>some.group.id</groupId>
+    <artifactId>some.library</artifactId>
+    <version>some.library.version</version>
 
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jetbrains.kotlin</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+    <exclusions>
+        <exclusion>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>*</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
 ```
 
 ## Gradle

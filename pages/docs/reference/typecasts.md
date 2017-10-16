@@ -40,20 +40,20 @@ fun demo(x: Any) {
 The compiler is smart enough to know a cast to be safe if a negative check leads to a return:
 
 ``` kotlin
-    if (x !is String) return
-    print(x.length) // x is automatically cast to String
+if (x !is String) return
+print(x.length) // x is automatically cast to String
 ```
 
 or in the right-hand side of `&&` and `||`:
 
 ``` kotlin
-    // x is automatically cast to string on the right-hand side of `||`
-    if (x !is String || x.length == 0) return
+// x is automatically cast to string on the right-hand side of `||`
+if (x !is String || x.length == 0) return
 
-    // x is automatically cast to string on the right-hand side of `&&`
-    if (x is String && x.length > 0) {
-        print(x.length) // x is automatically cast to String
-    }
+// x is automatically cast to string on the right-hand side of `&&`
+if (x is String && x.length > 0) {
+    print(x.length) // x is automatically cast to String
+}
 ```
 
 Such _smart casts_ work for [*when*{: .keyword }-expressions](control-flow.html#when-expression)

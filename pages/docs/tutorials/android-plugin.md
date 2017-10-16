@@ -60,16 +60,16 @@ Thus if the layout filename is `activity_main.xml`, we'd import `kotlinx.android
 
 If we want to call the synthetic properties on `View` (useful in adapter classes), we should also import `kotlinx.android.synthetic.main.activity_main.view.*`.
 
-Once we do that, we can then invoke the corresponding extensions, which are properties named after the views in the XML file. 
+Once we do that, we can then invoke the corresponding extensions, which are properties named after the views in the XML file.
 For example, for this view:
 
 ``` xml
-    <TextView
-        android:id="@+id/hello"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Hello World, MyActivity"
-        />
+<TextView
+    android:id="@+id/hello"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Hello World, MyActivity"
+    />
 ```
 
 There will be a property named `hello`:
@@ -110,7 +110,7 @@ For instance, given
 
 ``` kotlin
 class MyActivity : Activity()
-fun MyActivity.a() { 
+fun MyActivity.a() {
     this.textView.setText(“”)
 }
 ```
@@ -120,7 +120,7 @@ a hidden caching function is generated inside MyActivity, so we can use the cach
 However in the following case:
 
 ``` kotlin
-fun Activity.b() { 
+fun Activity.b() {
     this.textView.setText(“”)
 }
 ```
