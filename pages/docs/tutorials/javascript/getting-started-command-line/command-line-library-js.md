@@ -61,7 +61,7 @@ We will create a simple Kotlin/JavaScript library.
 
 ### Using a Kotlin/JavaScript library.
 
-   Create binom.kt:
+Create binom.kt:
 
 ``` kotlin
 import org.sample.factorial
@@ -77,22 +77,20 @@ fun oddFactorial(n: Int): Long {
 }
 ```
 
-   Compile with library:
+Compile with library:
 
 ```
 $ kotlinc-js -output binom.js -libraries sample-library.meta.js binom.kt
 ```
 
-   Both files `sample-library.js` and `sample-library.meta.js` should be present in the latter case,
-   because translated JavaScript file contains meta-information about inlining, which
-   is needed by compiler.
+Both files `sample-library.js` and `sample-library.meta.js` should be present in the latter case,
+because translated JavaScript file contains meta-information about inlining, which
+is needed by compiler.
 
 
-   If you have an archive `sample-library.jar`, which contains `sample-library.js` and `sample-library.meta.js`,
-   you can use the following command
+If you have an archive `sample-library.jar`, which contains `sample-library.js` and `sample-library.meta.js`,
+you can use the following command
 
 ```
 $ kotlinc-js -output binom.js -libraries sample-library.jar binom.kt
 ```
-
-
