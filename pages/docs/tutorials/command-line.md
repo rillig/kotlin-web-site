@@ -76,21 +76,21 @@ If you're a [MacPorts](https://www.macports.org/) user, you can install the comp
 
 ### Compiling a library
 
-   If you're developing a library to be used by other Kotlin applications, you can produce the .jar file without including the Kotlin runtime into it.
+If you're developing a library to be used by other Kotlin applications, you can produce the .jar file without including the Kotlin runtime into it.
 
 ```
    $ kotlinc hello.kt -d hello.jar
 ```
 
-   Since binaries compiled this way depend on the Kotlin runtime you should make sure the latter is present in the classpath whenever your compiled library is used.
-   
-   You can also use the `kotlin` script to run binaries produced by the Kotlin compiler:
+Since binaries compiled this way depend on the Kotlin runtime you should make sure the latter is present in the classpath whenever your compiled library is used.
+
+You can also use the `kotlin` script to run binaries produced by the Kotlin compiler:
 
 ```
    $ kotlin -classpath hello.jar HelloKt
 ```
 
-   `HelloKt` is the main class name that the Kotlin compiler generates for the file named `hello.kt`.
+`HelloKt` is the main class name that the Kotlin compiler generates for the file named `hello.kt`.
 
 ### Running the REPL
 
@@ -103,10 +103,10 @@ We can run the compiler without parameters to have an interactive shell. We can 
 Kotlin can also be used as a scripting language. A script is a Kotlin source file (.kts) with top level executable code.
 
 ``` kotlin
-   import java.io.File
+import java.io.File
 
-   val folders = File(args[0]).listFiles { file -> file.isDirectory() }
-   folders?.forEach { folder -> println(folder) }
+val folders = File(args[0]).listFiles { file -> file.isDirectory() }
+folders?.forEach { folder -> println(folder) }
 ```
 
 To run a script, we just pass the `-script` option to the compiler with the corresponding script file.

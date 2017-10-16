@@ -101,7 +101,7 @@ class Int {
 Floating point numbers (`Double`, `Float`) do not define their `rangeTo` operator, and the one provided by the standard library for generic `Comparable` types is used instead:
 
 ``` kotlin
-    public operator fun <T: Comparable<T>> T.rangeTo(that: T): ClosedRange<T>
+public operator fun <T: Comparable<T>> T.rangeTo(that: T): ClosedRange<T>
 ```
 
 The range returned by this function cannot be used for iteration.
